@@ -271,14 +271,26 @@ EnhancedTableToolbar.propTypes = {
     numSelected: PropTypes.number.isRequired,
 };
 
-const TableCellByValue = ({ value }: { value: string | number | unknown }) => {
+const TableCellByValue = ({
+    value,
+    labelId,
+}: {
+    value: string | number | unknown;
+    labelId: string;
+}) => {
     const isArray = Array.isArray(value) && value.length > 0;
 
     if (isArray) {
         const allTypes = value.map((type) => ({ typeName: type.type.name }));
 
         return (
-            <TableCell component="td" scope="row" padding="normal" align="left">
+            <TableCell
+                component="td"
+                scope="row"
+                padding="normal"
+                align="left"
+                id={labelId}
+            >
                 <ul className="tableCellTypeList">
                     {allTypes.map(({ typeName }) => (
                         <li key={typeName}>
@@ -294,7 +306,7 @@ const TableCellByValue = ({ value }: { value: string | number | unknown }) => {
         return isImg ? (
             <TableCell
                 component="td"
-                id={value}
+                id={labelId}
                 scope="row"
                 padding="none"
                 align="left"
@@ -304,7 +316,7 @@ const TableCellByValue = ({ value }: { value: string | number | unknown }) => {
         ) : (
             <TableCell
                 component="td"
-                id={value}
+                id={labelId}
                 scope="row"
                 padding="normal"
                 align="left"
@@ -316,7 +328,7 @@ const TableCellByValue = ({ value }: { value: string | number | unknown }) => {
         return (
             <TableCell
                 component="td"
-                id={(value as number).toString()}
+                id={labelId}
                 scope="row"
                 padding="normal"
                 align="left"
@@ -337,7 +349,7 @@ export default function EnhancedTable({
     const [rows, setRows] = useState(rowsProp);
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('calories');
-    const [selected, setSelected] = useState([]);
+    const [selected, setSelected] = useState<never[]>([]);
     const [page, setPage] = useState(0);
     const [dense, setDense] = useState(false);
     const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -440,25 +452,30 @@ export default function EnhancedTable({
                                     page * rowsPerPage + rowsPerPage
                                 )
                                 .map((row, index) => {
-                                    // const isItemSelected = isSelected(row.name);
+                                    const isItemSelected = isSelected(
+                                        row.name as never
+                                    );
                                     const labelId = `enhanced-table-checkbox-${index}`;
 
                                     return (
                                         <TableRow
                                             hover
                                             onClick={(event) => {
-                                                // handleClick(event, row.name);
+                                                handleClick(
+                                                    event,
+                                                    row.name as never
+                                                );
                                             }}
                                             role="checkbox"
-                                            // aria-checked={isItemSelected}
+                                            aria-checked={isItemSelected}
                                             tabIndex={-1}
                                             key={row.name}
-                                            // selected={isItemSelected}
+                                            selected={isItemSelected}
                                         >
                                             <TableCell padding="checkbox">
                                                 <Checkbox
                                                     color="primary"
-                                                    // checked={isItemSelected}
+                                                    checked={isItemSelected}
                                                 />
                                             </TableCell>
 
@@ -466,6 +483,7 @@ export default function EnhancedTable({
                                                 <TableCellByValue
                                                     key={key}
                                                     value={row[key] as unknown}
+                                                    labelId={labelId}
                                                 />
                                             ))}
 
