@@ -86,14 +86,6 @@ function stableSort(array, comparator) {
     });
     return stabilizedThis.map((el) => el[0]);
 }
-// * This constant could be helpful to know if you have a Pokemon
-const createdPokemon = [
-    'my_name',
-    'my_description',
-    'my_types',
-    'my_teammates',
-    'my_sprite',
-];
 
 const objLabelByKey: { [key: string]: string } = {
     front_default: 'Foto',
@@ -106,47 +98,7 @@ const objLabelByKey: { [key: string]: string } = {
     description: 'descripcion',
 };
 
-const headCells = [
-    {
-        id: 'html_image',
-        label: 'Foto',
-        idCreated: 'html_my_sprite',
-    },
-    {
-        id: 'id_pokemon',
-        label: 'Número en Pokedex',
-    },
-    {
-        id: 'name',
-        label: 'Nombre',
-        idCreated: 'my_name',
-    },
-    {
-        id: 'html_types',
-        label: 'Tipos',
-        idCreated: 'html_my_types',
-    },
-    {
-        id: 'teammates',
-        label: 'Amigos',
-        idCreated: 'html_my_teammates',
-    },
-    {
-        id: 'height',
-        label: 'Altura',
-    },
-    {
-        id: 'weight',
-        label: 'Peso',
-    },
-    {
-        id: 'description',
-        label: 'Descripcion',
-        idCreated: 'my_description',
-    },
-];
-
-function EnhancedTableHead(props) {
+function EnhancedTableHead(props: any) {
     const {
         onSelectAllClick,
         order,
@@ -156,7 +108,7 @@ function EnhancedTableHead(props) {
         onRequestSort,
         rowsKeys,
     } = props;
-    const createSortHandler = (property) => (event) => {
+    const createSortHandler = (property: any) => (event: any) => {
         onRequestSort(event, property);
     };
 

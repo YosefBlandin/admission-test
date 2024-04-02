@@ -3,7 +3,7 @@ import EnhancedTable from '../components/Table';
 import { useNavigate } from 'react-router-dom';
 import { usePokemons } from '../hooks/usePokemons';
 
-export default function Home({ tableRows }: { tableRows: any }) {
+export default function Home() {
     const { isLoading, data, error } = usePokemons();
 
     const navigate = useNavigate();
@@ -30,6 +30,8 @@ export default function Home({ tableRows }: { tableRows: any }) {
         <div className="homeContainer">
             {isLoading && data.length === 0 ? (
                 'Loading...'
+            ) : error ? (
+                'Something went wrong. Try again later'
             ) : (
                 <EnhancedTable
                     rowsProp={data}
