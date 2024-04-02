@@ -1,3 +1,4 @@
+import React from 'react';
 import EnhancedTable from '../components/Table';
 import { useNavigate } from 'react-router-dom';
 import { usePokemons } from '../hooks/usePokemons';
@@ -24,7 +25,7 @@ export default function Home({ tableRows }: { tableRows: any }) {
     };
 
     return (
-        <div>
+        <div className="homeContainer">
             {isLoading && data.length === 0 ? (
                 'Loading...'
             ) : (
