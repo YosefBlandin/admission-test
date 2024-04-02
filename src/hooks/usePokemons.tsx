@@ -50,31 +50,33 @@ export const usePokemons: UsePokemonsFn = () => {
         try {
             setIsLoading(true);
             const {
-                data: { results: ListResult },
+                data: { results: listResult },
             }: AxiosResponse<PokemonListResponse> = await axios.get(
                 getApiUrl(20)
             );
 
             const allPokemonsData: PokemonDetailsForTable[] = [];
 
-            ListResult.forEach(async (pokemonItem: PokemonItem) => {
-                const { data }: AxiosResponse<PokemonDetails> = await axios.get(
-                    pokemonItem.url
-                );
+            listResult.forEach(
+                async (pokemonItem: PokemonItem, index: number) => {
+                    const { data }: AxiosResponse<PokemonDetails> =
+                        await axios.get(pokemonItem.url);
 
-                allPokemonsData.push({
-                    id: data.id,
-                    name: data.name,
-                    types: data.types,
-                    height: data.height,
-                    weight: data.weight,
-                    front_default: data.sprites.front_default,
-                });
-            });
+                    allPokemonsData.push({
+                        id: data.id,
+                        name: data.name,
+                        types: data.types,
+                        height: data.height,
+                        weight: data.weight,
+                        front_default: data.sprites.front_default,
+                    });
 
-            setData(allPokemonsData);
-
-            setIsLoading(false);
+                    if (listResult.length === allPokemonsData.length) {
+                        setData(allPokemonsData);
+                        setIsLoading(false);
+                    }
+                }
+            );
         } catch (e: unknown) {
             setError(e);
             setIsLoading(false);
@@ -82,11 +84,10 @@ export const usePokemons: UsePokemonsFn = () => {
     };
 
     useEffect(() => {
-        console.log(data);
-        if (data.length === 0) {
+        if (data.length === 0 && !isLoading) {
             fetchPokemons();
         }
-    }, [data]);
+    }, [data, isLoading]);
 
     return {
         isLoading,

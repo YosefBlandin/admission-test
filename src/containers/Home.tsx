@@ -24,6 +24,8 @@ export default function Home({ tableRows }: { tableRows: any }) {
         });
     };
 
+    console.log({ isLoading });
+
     return (
         <div className="homeContainer">
             {isLoading && data.length === 0 ? (
