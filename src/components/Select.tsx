@@ -54,6 +54,7 @@ export default function Select({
             handleValueChange(defaultValue.filter((value: string) => value));
         }
     }, [options, defaultValue]);
+
     return (
         <div>
             <InputLabel
