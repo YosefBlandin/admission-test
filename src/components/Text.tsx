@@ -5,27 +5,24 @@ import TextField from '@mui/material/TextField';
 export default function Text({
     label,
     defaultValue,
+    handleChange,
 }: {
     label: string;
     defaultValue: string;
+    handleChange: (value: string) => void;
 }) {
     return (
-        <Box
-            component="form"
-            sx={{
-                '& .MuiTextField-root': { m: 1, width: '25ch' },
-            }}
-            noValidate
-            autoComplete="off"
-        >
+        <Box component="form" noValidate autoComplete="off">
             <div>
                 <TextField
                     // error
                     // id="standard-error-helper-text"
+                    fullWidth={true}
                     label={label}
+                    onChange={(e: any) => handleChange(e.target.value)}
                     defaultValue={defaultValue}
                     helperText="Incorrect entry."
-                    variant="standard"
+                    variant={'outlined'}
                     // rows={5}
                     // multiline={true}
                 />

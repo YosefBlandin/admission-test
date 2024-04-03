@@ -31,33 +31,7 @@ type EnhancedTableType<T> = {
     rowsProp: { [key: string]: T };
 };
 
-function createData(name, calories, fat, carbs, protein) {
-    return {
-        name,
-        calories,
-        fat,
-        carbs,
-        protein,
-    };
-}
-
-const defaultRows = [
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Donut', 452, 25.0, 51, 4.9),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-    createData('Honeycomb', 408, 3.2, 87, 6.5),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Jelly Bean', 375, 0.0, 94, 0.0),
-    createData('KitKat', 518, 26.0, 65, 7.0),
-    createData('Lollipop', 392, 0.2, 98, 0.0),
-    createData('Marshmallow', 318, 0, 81, 2.0),
-    createData('Nougat', 360, 19.0, 9, 37.0),
-    createData('Oreo', 437, 18.0, 63, 4.0),
-];
-
-function descendingComparator(a, b, orderBy) {
+function descendingComparator(a: any, b: any, orderBy: string) {
     if (b[orderBy] < a[orderBy]) {
         return -1;
     }
@@ -67,15 +41,15 @@ function descendingComparator(a, b, orderBy) {
     return 0;
 }
 
-function getComparator(order, orderBy) {
+function getComparator(order: string, orderBy: string) {
     return order === 'desc'
-        ? (a, b) => descendingComparator(a, b, orderBy)
-        : (a, b) => -descendingComparator(a, b, orderBy);
+        ? (a: any, b: any) => descendingComparator(a, b, orderBy)
+        : (a: any, b: any) => -descendingComparator(a, b, orderBy);
 }
 
 // This method is created for cross-browser compatibility, if you don't
 // need to support IE11, you can use Array.prototype.sort() directly
-function stableSort(array, comparator) {
+function stableSort(array: any[], comparator: any) {
     const stabilizedThis = array.map((el, index) => [el, index]);
     stabilizedThis.sort((a, b) => {
         const order = comparator(a[0], b[0]);
@@ -128,7 +102,7 @@ function EnhancedTableHead(props: any) {
                         }}
                     />
                 </TableCell>
-                {rowsKeys.map((headCell) => (
+                {rowsKeys.map((headCell: any) => (
                     <TableCell
                         key={headCell.id}
                         align={'left'}
@@ -165,7 +139,7 @@ function EnhancedTableHead(props: any) {
 //     rowCount: PropTypes.number.isRequired,
 // };
 
-const EnhancedTableToolbar = (props) => {
+const EnhancedTableToolbar = (props: any) => {
     const { numSelected } = props;
 
     return (
@@ -233,7 +207,7 @@ const TableCellByValue = ({
     const isArray = Array.isArray(value) && value.length > 0;
 
     if (isArray) {
-        const allTypes = value.map((type) => ({ typeName: type.type.name }));
+        const allTypes = value.map((type) => ({ typeName: type }));
 
         return (
             <TableCell
@@ -306,13 +280,13 @@ export default function EnhancedTable({
     const [dense, setDense] = useState(false);
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
-    const handleRequestSort = (event, property) => {
+    const handleRequestSort = (event: any, property: any) => {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);
     };
 
-    const handleSelectAllClick = (event) => {
+    const handleSelectAllClick = (event: any) => {
         if (event.target.checked) {
             const newSelecteds = rows.map((n: any) => n.name);
             setSelected(newSelecteds as never);
@@ -321,9 +295,9 @@ export default function EnhancedTable({
         setSelected([]);
     };
 
-    const handleClick = (event, name: never) => {
+    const handleClick = (event: any, name: never) => {
         const selectedIndex = selected.indexOf(name);
-        let newSelected = [];
+        let newSelected: never[] = [];
 
         if (selectedIndex === -1) {
             newSelected = newSelected.concat(selected, name);
@@ -341,16 +315,16 @@ export default function EnhancedTable({
         setSelected(newSelected);
     };
 
-    const handleChangePage = (event, newPage) => {
+    const handleChangePage = (event: any, newPage: any) => {
         setPage(newPage);
     };
 
-    const handleChangeRowsPerPage = (event) => {
+    const handleChangeRowsPerPage = (event: any) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
 
-    const handleChangeDense = (event) => {
+    const handleChangeDense = (event: any) => {
         setDense(event.target.checked);
     };
 
@@ -403,7 +377,7 @@ export default function EnhancedTable({
                                     page * rowsPerPage,
                                     page * rowsPerPage + rowsPerPage
                                 )
-                                .map((row, index) => {
+                                .map((row: any, index: any) => {
                                     const isItemSelected = isSelected(
                                         row.name as never
                                     );

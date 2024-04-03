@@ -1,5 +1,8 @@
 export type UsePokemonsFn = () => { isLoading: boolean; data: any[]; error: unknown };
 
+export type UsePokemonsTypesFn = () => { isLoading: boolean; data: any[]; error: unknown };
+
+
 export type PokemonItem = {
 	name: string;
 	url: string;
@@ -32,4 +35,4 @@ export type PokemonDetails = {
 };
 
 export type PokemonDetailsForTable = Pick<PokemonDetails['sprites'], 'front_default'> &
-	Pick<PokemonDetails, 'id' | 'name' | 'types' | 'height' | 'weight'>;
+	Pick<PokemonDetails, 'id' | 'name' | 'height' | 'weight'> & { types: string[] };

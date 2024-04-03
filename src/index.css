@@ -23,3 +23,16 @@ code {
 .homeContainer {
     padding: 80px 40px;
 }
+
+.formContainer {
+    max-width: 320px;
+    margin: 80px auto;
+}
+
+.buttonsSection {
+    display: flex;
+    justify-content: space-between;
+    column-gap: 10px;
+    margin: 0 auto;
+    margin-top: 20px;
+}

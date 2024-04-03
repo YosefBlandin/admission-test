@@ -1,5 +1,12 @@
 import axios, { AxiosResponse } from 'axios';
 import { useEffect, useState } from 'react';
+import {
+    PokemonDetails,
+    PokemonDetailsForTable,
+    PokemonItem,
+    PokemonListResponse,
+    UsePokemonsFn,
+} from '../types';
 
 const getApiUrl = (itemsQuantity: number): string => {
     return `https://pokeapi.co/api/v2/pokemon?limit=${itemsQuantity}&offset=0`;
@@ -16,7 +23,7 @@ export const usePokemons: UsePokemonsFn = () => {
             const {
                 data: { results: listResult },
             }: AxiosResponse<PokemonListResponse> = await axios.get(
-                getApiUrl(20)
+                getApiUrl(200)
             );
 
             const allPokemonsData: PokemonDetailsForTable[] = [];
@@ -29,7 +36,9 @@ export const usePokemons: UsePokemonsFn = () => {
                     allPokemonsData.push({
                         id: data.id,
                         name: data.name,
-                        types: data.types,
+                        types: data.types.map((type) => {
+                            return type.type.name;
+                        }),
                         height: data.height,
                         weight: data.weight,
                         front_default: data.sprites.front_default,

@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
 import { Select as MaterialSelect } from '@mui/material';
 import Chip from '@mui/material/Chip';
 
@@ -19,19 +18,6 @@ const MenuProps = {
     },
 };
 
-const names = [
-    'Oliver Hansen',
-    'Van Henry',
-    'April Tucker',
-    'Ralph Hubbard',
-    'Omar Alexander',
-    'Carlos Abbott',
-    'Miriam Wagner',
-    'Bradley Wilkerson',
-    'Virginia Andrews',
-    'Kelly Snyder',
-];
-
 function getStyles(name: any, personName: any, theme: any) {
     return {
         fontWeight:
@@ -44,32 +30,45 @@ function getStyles(name: any, personName: any, theme: any) {
 export default function Select({
     label,
     defaultValue,
+    options,
+    handleChange,
 }: {
     label: string;
-    defaultValue: any;
+    defaultValue: any[];
+    options: string[];
+    handleChange: (value: any) => void;
 }) {
     const theme = useTheme();
-    const [personName, setPersonName] = React.useState([]);
+    const [selectedOption, setSelectedOption] = React.useState([]);
 
-    const handleChange = (event: any) => {
-        const {
-            target: { value },
-        } = event;
-        setPersonName(
+    const handleValueChange = (value: any) => {
+        setSelectedOption(
             // On autofill we get a stringified value.
             typeof value === 'string' ? value.split(',') : value
         );
+        handleChange(value);
     };
 
+    useEffect(() => {
+        if (options) {
+            handleValueChange(defaultValue);
+        }
+    }, [options]);
     return (
         <div>
-            <InputLabel id="demo-multiple-chip-label">{label}</InputLabel>
+            <InputLabel
+                id="demo-simple-select-label"
+                style={{ textAlign: 'start' }}
+            >
+                {label}
+            </InputLabel>
             <MaterialSelect
-                labelId="demo-multiple-chip-label"
+                labelId="demo-simple-select-label"
                 id="demo-multiple-chip"
+                fullWidth={true}
                 multiple
-                // value={personName}
-                onChange={handleChange}
+                label={label}
+                onChange={(event) => handleValueChange(event.target.value)}
                 defaultValue={defaultValue}
                 input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
                 renderValue={(selected) => (
@@ -81,15 +80,16 @@ export default function Select({
                 )}
                 MenuProps={MenuProps}
             >
-                {names.map((name) => (
-                    <MenuItem
-                        key={name}
-                        value={name}
-                        style={getStyles(name, personName, theme)}
-                    >
-                        {name}
-                    </MenuItem>
-                ))}
+                {options &&
+                    options.map((option) => (
+                        <MenuItem
+                            key={option}
+                            value={option}
+                            style={getStyles(option, selectedOption, theme)}
+                        >
+                            {option}
+                        </MenuItem>
+                    ))}
             </MaterialSelect>
         </div>
     );
