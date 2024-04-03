@@ -28,7 +28,6 @@ export const DataContext = createContext<{
 
 function App() {
     const { isLoading, data, error } = usePokemons();
-    const [triggerRender, setTriggerRender] = React.useState(false);
     const {
         isLoading: isPokemonTypesLoading,
         data: pokemonsTypesData,
@@ -39,12 +38,10 @@ function App() {
     >([]);
 
     const handleDeletePokemon = (pokemonsName: string[]): void => {
-        setTriggerRender(true);
         const newPokemonsData = pokemonsData.filter(
             ({ name }) => pokemonsName.indexOf(name) === -1
         );
         setPokemonsData(newPokemonsData);
-        setTriggerRender(false);
     };
 
     const handleUpdatePokemonRow = ({
