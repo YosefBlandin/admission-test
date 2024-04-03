@@ -51,9 +51,9 @@ export default function Select({
 
     useEffect(() => {
         if (options) {
-            handleValueChange(defaultValue);
+            handleValueChange(defaultValue.filter((value: string) => value));
         }
-    }, [options]);
+    }, [options, defaultValue]);
     return (
         <div>
             <InputLabel

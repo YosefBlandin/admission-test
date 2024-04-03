@@ -36,6 +36,8 @@ export const usePokemons: UsePokemonsFn = () => {
                     allPokemonsData.push({
                         id: data.id,
                         name: data.name,
+                        friends: [],
+                        description: '',
                         types: data.types.map((type) => {
                             return type.type.name;
                         }),

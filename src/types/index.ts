@@ -35,4 +35,4 @@ export type PokemonDetails = {
 };
 
 export type PokemonDetailsForTable = Pick<PokemonDetails['sprites'], 'front_default'> &
-	Pick<PokemonDetails, 'id' | 'name' | 'height' | 'weight'> & { types: string[] };
+	Pick<PokemonDetails, 'id' | 'name' | 'height' | 'weight'> & { types: string[], friends?: string[], description?: string };

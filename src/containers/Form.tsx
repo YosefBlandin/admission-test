@@ -11,15 +11,26 @@ export default function Form() {
     // * Use navigate to return root path
     const navigate = useNavigate();
     const { handleUpdatePokemonRow } = useContext(DataContext);
-    const { name, types, pokemonsData, pokemonsTypesData } =
-        location.state as PokemonDetailsForTable & {
-            pokemonsTypesData: string[];
-            my_teammates: string[];
-            pokemonsData: string[];
-        };
+    const {
+        name,
+        types,
+        pokemonsData,
+        pokemonsTypesData,
+        description,
+        friends,
+    } = location.state as PokemonDetailsForTable & {
+        pokemonsTypesData: string[];
+        my_teammates: string[];
+        pokemonsData: string[];
+    };
 
     const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
+    const [selectedFriends, setSelectedFriends] = useState<string[]>(
+        friends ?? []
+    );
     const [newPokemonName, setNewPokemonName] = useState<string>(name);
+    const [newPokemonDescription, setNewPokemonDescription] =
+        useState(description);
     const [pokemonsBySelectedTypes, setPokemonsBySelectedTypes] = useState<
         string[]
     >([]);
@@ -33,6 +44,8 @@ export default function Form() {
             fields: {
                 types: selectedTypes,
                 name: newPokemonName,
+                description: newPokemonDescription ? newPokemonDescription : '',
+                friends: selectedFriends,
             },
         });
 
@@ -69,6 +82,14 @@ export default function Form() {
         );
     };
 
+    const handleChangeDescription = (value: string): void => {
+        setNewPokemonDescription(value);
+    };
+
+    const handleChangeFriends = (selectedFriends: string[]): void => {
+        setSelectedFriends(selectedFriends);
+    };
+
     return (
         <form className="formContainer">
             <Box my={4}>
@@ -91,9 +112,19 @@ export default function Form() {
             <Box my={4}>
                 <Select
                     label={'Best teammate'}
-                    defaultValue={['']}
+                    defaultValue={selectedFriends}
                     options={pokemonsBySelectedTypes}
-                    handleChange={() => {}}
+                    handleChange={handleChangeFriends}
+                />
+            </Box>
+
+            <Box my={4}>
+                <Text
+                    label={'Description'}
+                    defaultValue={
+                        newPokemonDescription ? newPokemonDescription : ''
+                    }
+                    handleChange={handleChangeDescription}
                 />
             </Box>
 
