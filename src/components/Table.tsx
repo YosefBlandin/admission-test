@@ -160,7 +160,7 @@ const EnhancedTableToolbar = ({
                 }),
             }}
         >
-            {numSelected > 0 ? (
+            {numSelected > 0 && (
                 <Typography
                     sx={{ flex: '1 1 100%' }}
                     color="inherit"
@@ -168,15 +168,6 @@ const EnhancedTableToolbar = ({
                     component="div"
                 >
                     {numSelected} selected
-                </Typography>
-            ) : (
-                <Typography
-                    sx={{ flex: '1 1 100%' }}
-                    variant="h6"
-                    id="tableTitle"
-                    component="div"
-                >
-                    POKEMONS
                 </Typography>
             )}
 

@@ -2,6 +2,8 @@ import React, { useContext, useEffect } from 'react';
 import EnhancedTable from '../components/Table';
 import { useNavigate } from 'react-router-dom';
 import { DataContext } from '../App';
+import { CircularProgress, Typography } from '@mui/material';
+import { TableSkeleton } from '../components/TableSkeleton';
 
 export default function Home() {
     const { pokemonsData, pokemonsTypesData, isLoading, handleDeletePokemon } =
@@ -33,20 +35,26 @@ export default function Home() {
         });
     };
 
-    useEffect(() => {}, [pokemonsData]);
-
     return (
         <div className="homeContainer">
-            {isLoading
-                ? 'Loading...'
-                : Array.isArray(pokemonsData) &&
-                  pokemonsData.length > 0 && (
-                      <EnhancedTable
-                          rowsProp={pokemonsData as any}
-                          handleEditButton={handleEditButton}
-                          handleDeleteElement={handleDeletePokemon}
-                      />
-                  )}
+            <Typography textAlign={'center'} marginBottom={0}>
+                <h1>A Modifiable Pokemons List</h1>
+            </Typography>
+            <Typography textAlign={'center'} marginBottom={0}>
+                <p>Modify and Save</p>
+            </Typography>
+            {isLoading ? (
+                <TableSkeleton />
+            ) : (
+                Array.isArray(pokemonsData) &&
+                pokemonsData.length > 0 && (
+                    <EnhancedTable
+                        rowsProp={pokemonsData as any}
+                        handleEditButton={handleEditButton}
+                        handleDeleteElement={handleDeletePokemon}
+                    />
+                )
+            )}
         </div>
     );
 }
