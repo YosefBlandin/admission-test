@@ -30,9 +30,9 @@ export type PokemonDetails = {
 	height: number;
 	weight: number;
 	sprites: {
-		front_default: string;
+		[key: string]: string
 	};
 };
 
 export type PokemonDetailsForTable = Pick<PokemonDetails['sprites'], 'front_default'> &
-	Pick<PokemonDetails, 'id' | 'name' | 'height' | 'weight'> & { types: string[], friends?: string[], description?: string };
+	Pick<PokemonDetails, 'id' | 'name' | 'height' | 'weight'> & { types: string[], sprites: { title: string; img: string }[], friends?: string[], description?: string; };

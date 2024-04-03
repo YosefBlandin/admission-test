@@ -208,6 +208,7 @@ const TableCellByValue = ({
     value: string | number | unknown;
     labelId: string;
 }) => {
+    console.log(value);
     const isArray = Array.isArray(value) && value.length > 0;
 
     if (isArray) {
@@ -346,11 +347,13 @@ export default function EnhancedTable({
         if (areRowsValid) {
             const getRowKeys = Object.keys(rows[0]);
 
-            return getRowKeys.map((row) => ({
-                id: row,
-                label: objLabelByKey[row],
-                idCreated: row,
-            }));
+            return getRowKeys
+                .map((row) => ({
+                    id: row,
+                    label: objLabelByKey[row],
+                    idCreated: row,
+                }))
+                .filter((row) => row.id !== 'sprites');
         }
 
         return [];
@@ -424,13 +427,19 @@ export default function EnhancedTable({
                                                 />
                                             </TableCell>
 
-                                            {Object.keys(row).map((key) => (
-                                                <TableCellByValue
-                                                    key={key}
-                                                    value={row[key] as unknown}
-                                                    labelId={labelId}
-                                                />
-                                            ))}
+                                            {Object.keys(row)
+                                                .filter(
+                                                    (key) => key !== 'sprites'
+                                                )
+                                                .map((key) => (
+                                                    <TableCellByValue
+                                                        key={key}
+                                                        value={
+                                                            row[key] as unknown
+                                                        }
+                                                        labelId={labelId}
+                                                    />
+                                                ))}
 
                                             <TableCell
                                                 padding="normal"

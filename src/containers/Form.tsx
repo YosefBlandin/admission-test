@@ -3,8 +3,9 @@ import Text from '../components/Text';
 import Select from '../components/Select';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { PokemonDetailsForTable } from '../types';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { DataContext } from '../App';
+import StandardImageList from '../components/ImageList';
 
 export default function Form() {
     const location = useLocation();
@@ -18,13 +19,17 @@ export default function Form() {
         pokemonsTypesData,
         description,
         friends,
+        sprites,
+        front_default,
     } = location.state as PokemonDetailsForTable & {
         pokemonsTypesData: string[];
         my_teammates: string[];
         pokemonsData: string[];
+        sprites: { title: string; img: string }[];
     };
 
     const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
+    const [selectedImg, setSelectedImg] = useState<string>(front_default);
     const [selectedFriends, setSelectedFriends] = useState<string[]>(
         friends ?? []
     );
@@ -46,6 +51,7 @@ export default function Form() {
                 name: newPokemonName,
                 description: newPokemonDescription ? newPokemonDescription : '',
                 friends: selectedFriends,
+                front_default: selectedImg,
             },
         });
 
@@ -90,6 +96,10 @@ export default function Form() {
         setSelectedFriends(selectedFriends);
     };
 
+    const handleChangeImg = (img: string): any => {
+        setSelectedImg(img);
+    };
+
     return (
         <form className="formContainer">
             <Box my={4}>
@@ -128,7 +138,20 @@ export default function Form() {
                 />
             </Box>
 
-            {/* <ImageList defaultValue={foundPokemon.my_sprite} />  */}
+            <Typography
+                textAlign={'start'}
+                color="inherit"
+                variant="subtitle1"
+                component="div"
+            >
+                Change Pokemon Image
+            </Typography>
+
+            <StandardImageList
+                defaultValue={selectedImg}
+                handleChange={handleChangeImg}
+                list={sprites}
+            />
 
             <section className={'buttonsSection'}>
                 <Button

@@ -33,11 +33,31 @@ export const usePokemons: UsePokemonsFn = () => {
                     const { data }: AxiosResponse<PokemonDetails> =
                         await axios.get(pokemonItem.url);
 
+                    const spritesKeys = Object.keys(data.sprites);
+                    const spritesValues = Object.values(data.sprites);
+
                     allPokemonsData.push({
                         id: data.id,
                         name: data.name,
                         friends: [],
                         description: '',
+                        sprites: spritesKeys
+                            .map((key: string, index: number) => {
+                                const keyValue: any = spritesValues[index];
+
+                                if (
+                                    typeof keyValue === 'string' &&
+                                    keyValue.includes('https')
+                                ) {
+                                    return {
+                                        title: key,
+                                        img: keyValue,
+                                    };
+                                }
+
+                                return false;
+                            })
+                            .filter((value) => value) as any,
                         types: data.types.map((type) => {
                             return type.type.name;
                         }),
