@@ -1,14 +1,13 @@
-import React, { createContext, useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import EnhancedTable from '../components/Table';
 import { useNavigate } from 'react-router-dom';
-import { usePokemons } from '../hooks/usePokemons';
-import { usePokemonsTypes } from '../hooks/usePokemonsTypes';
-import { PokemonTypes } from '../types';
 import { DataContext } from '../App';
 
 export default function Home() {
-    const { pokemonsData, pokemonsTypesData, isLoading } =
+    const { pokemonsData, pokemonsTypesData, isLoading, handleDeletePokemon } =
         useContext(DataContext);
+
+    console.log('HOME DATA', pokemonsData);
 
     const navigate = useNavigate();
 
@@ -34,6 +33,8 @@ export default function Home() {
         });
     };
 
+    useEffect(() => {}, [pokemonsData]);
+
     return (
         <div className="homeContainer">
             {isLoading
@@ -43,6 +44,7 @@ export default function Home() {
                       <EnhancedTable
                           rowsProp={pokemonsData as any}
                           handleEditButton={handleEditButton}
+                          handleDeleteElement={handleDeletePokemon}
                       />
                   )}
         </div>

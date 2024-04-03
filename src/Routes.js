@@ -5,13 +5,13 @@ import Form from "./containers/Form";
 import { Route, Routes } from "react-router-dom";
 
 export default function MyRoutes(props) {
-	const { tableRows, pokemonTypesOptions, handleUpdatePokemonRow } = props;
+	const { tableRows, pokemonTypesOptions } = props;
 
 	return (
 		<div>
 			<Routes>
 				<Route path="/">
-					<Route index path="/" element={<Home tableRows={tableRows} />} />
+					<Route index path="/" element={<Home />} />
 					<Route
 						path="home"
 						element={<Form pokemonTypesOptions={pokemonTypesOptions} />}
@@ -22,7 +22,6 @@ export default function MyRoutes(props) {
 							<Form
 								pokemonTypesOptions={pokemonTypesOptions}
 								tableRows={tableRows}
-								handleUpdatePokemonRow={handleUpdatePokemonRow}
 							/>
 						}
 					/>

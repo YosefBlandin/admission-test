@@ -1,10 +1,6 @@
 import Routes from './Routes';
 import './App.css';
-import Text from './components/Text';
-import EnhancedTable from './components/Table';
-import Dialog from './components/Dialog';
 import React, { createContext, useEffect } from 'react';
-import axios from 'axios';
 import { Outlet } from 'react-router-dom';
 import { usePokemons } from './hooks/usePokemons';
 import { usePokemonsTypes } from './hooks/usePokemonsTypes';
@@ -14,26 +10,49 @@ export const DataContext = createContext<{
     pokemonsData: PokemonDetailsForTable[];
     pokemonsTypesData: { [key: string]: string }[];
     isLoading: boolean;
-}>({ pokemonsData: [], pokemonsTypesData: [], isLoading: false });
+    handleDeletePokemon: (pokemonNames: string[]) => void;
+    handleUpdatePokemonRow: (args: {
+        name: string;
+        fields: { [key: string]: string | string[] };
+    }) => void;
+}>({
+    pokemonsData: [],
+    pokemonsTypesData: [],
+    isLoading: false,
+    handleDeletePokemon: (pokemonNames: string[]) => {},
+    handleUpdatePokemonRow: (args: {
+        name: string;
+        fields: { [key: string]: string | string[] };
+    }) => {},
+});
 
 function App() {
     const { isLoading, data, error } = usePokemons();
+    const [triggerRender, setTriggerRender] = React.useState(false);
     const {
         isLoading: isPokemonTypesLoading,
         data: pokemonsTypesData,
         error: pokemonTypesError,
     } = usePokemonsTypes();
-    const [tableRows, setTableRows] = React.useState([]);
     const [pokemonsData, setPokemonsData] = React.useState<
         PokemonDetailsForTable[]
     >([]);
+
+    const handleDeletePokemon = (pokemonsName: string[]): void => {
+        setTriggerRender(true);
+        const newPokemonsData = pokemonsData.filter(
+            ({ name }) => pokemonsName.indexOf(name) === -1
+        );
+        setPokemonsData(newPokemonsData);
+        setTriggerRender(false);
+    };
 
     const handleUpdatePokemonRow = ({
         name,
         fields,
     }: {
         name: string;
-        fields: { [key: string]: string | number };
+        fields: { [key: string]: string | string[] };
     }) => {
         const newPokemons = pokemonsData.map((pokemon) => {
             if (pokemon.name === name) {
@@ -48,24 +67,28 @@ function App() {
     };
 
     useEffect(() => {
-        if (Array.isArray(data) && data.length > 0) {
+        if (
+            Array.isArray(data) &&
+            data.length > 0 &&
+            pokemonsData.length === 0
+        ) {
             setPokemonsData(data);
         }
-    }, [data]);
+        console.log('CHANGE DETECTED', pokemonsData);
+    }, [data, pokemonsData]);
 
     return (
         <DataContext.Provider
             value={{
-                pokemonsData,
-                pokemonsTypesData,
+                pokemonsData: [...pokemonsData],
+                pokemonsTypesData: [...pokemonsTypesData],
                 isLoading: isPokemonTypesLoading || isLoading,
+                handleDeletePokemon,
+                handleUpdatePokemonRow,
             }}
         >
             <div className="App">
-                <Routes
-                    tableRows={tableRows}
-                    handleUpdatePokemonRow={handleUpdatePokemonRow}
-                />
+                <Routes />
                 <Outlet />
             </div>
         </DataContext.Provider>

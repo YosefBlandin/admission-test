@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { useEffect, useState } from 'react';
-import { PokemonItem, PokemonListResponse, UsePokemonsTypesFn } from '../types';
+import { PokemonListResponse, UsePokemonsTypesFn } from '../types';
 
 const getApiUrl = (): string => {
     return `https://pokeapi.co/api/v2/type/`;

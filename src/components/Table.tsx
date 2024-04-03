@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -139,9 +139,13 @@ function EnhancedTableHead(props: any) {
 //     rowCount: PropTypes.number.isRequired,
 // };
 
-const EnhancedTableToolbar = (props: any) => {
-    const { numSelected } = props;
-
+const EnhancedTableToolbar = ({
+    handleDelete,
+    numSelected,
+}: {
+    numSelected: any;
+    handleDelete: () => void;
+}) => {
     return (
         <Toolbar
             sx={{
@@ -177,7 +181,7 @@ const EnhancedTableToolbar = (props: any) => {
             )}
 
             {numSelected > 0 ? (
-                <Tooltip title="Delete">
+                <Tooltip title="Delete" onClick={handleDelete}>
                     <IconButton>
                         <DeleteIcon />
                     </IconButton>
@@ -268,9 +272,11 @@ const TableCellByValue = ({
 export default function EnhancedTable({
     rowsProp,
     handleEditButton,
+    handleDeleteElement,
 }: {
     rowsProp: EnhancedTableType<ObjectPropertyType>[];
     handleEditButton: any;
+    handleDeleteElement: (elementsName: string[]) => void;
 }) {
     const [rows, setRows] = useState(rowsProp);
     const [order, setOrder] = useState('asc');
@@ -350,10 +356,23 @@ export default function EnhancedTable({
         return [];
     };
 
+    const handleDelete = () => {
+        console.log(selected);
+        handleDeleteElement(selected);
+        setSelected([]);
+    };
+
+    useEffect(() => {
+        setRows(rowsProp);
+    }, [JSON.stringify(rowsProp)]);
+
     return (
         <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
-                <EnhancedTableToolbar numSelected={selected.length} />
+                <EnhancedTableToolbar
+                    handleDelete={handleDelete}
+                    numSelected={selected.length}
+                />
                 <TableContainer>
                     <Table
                         sx={{ minWidth: 750 }}

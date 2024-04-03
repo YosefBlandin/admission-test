@@ -1,31 +1,22 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Text from '../components/Text';
 import Select from '../components/Select';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { PokemonDetailsForTable } from '../types';
 import { Box, Button } from '@mui/material';
+import { DataContext } from '../App';
 
-export default function Form(props) {
+export default function Form() {
     const location = useLocation();
     // * Use navigate to return root path
     const navigate = useNavigate();
-    const {
-        id,
-        name,
-        types,
-        height,
-        weight,
-        front_default,
-        pokemonsData,
-        pokemonsTypesData,
-        my_teammates,
-    } = location.state as PokemonDetailsForTable & {
-        pokemonsTypesData: string[];
-        my_teammates: string[];
-        pokemonsData: string[];
-    };
-
-    const { pokemonTypesOptions, tableRows, handleUpdatePokemonRow } = props;
+    const { handleUpdatePokemonRow } = useContext(DataContext);
+    const { name, types, pokemonsData, pokemonsTypesData } =
+        location.state as PokemonDetailsForTable & {
+            pokemonsTypesData: string[];
+            my_teammates: string[];
+            pokemonsData: string[];
+        };
 
     const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
     const [newPokemonName, setNewPokemonName] = useState<string>(name);

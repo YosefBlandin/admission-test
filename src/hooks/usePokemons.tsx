@@ -23,7 +23,7 @@ export const usePokemons: UsePokemonsFn = () => {
             const {
                 data: { results: listResult },
             }: AxiosResponse<PokemonListResponse> = await axios.get(
-                getApiUrl(200)
+                getApiUrl(15)
             );
 
             const allPokemonsData: PokemonDetailsForTable[] = [];
