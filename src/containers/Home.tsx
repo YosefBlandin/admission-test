@@ -40,7 +40,7 @@ export default function Home() {
             <Typography textAlign={'center'} marginBottom={0}>
                 <h1>A Modifiable Pokemons List</h1>
             </Typography>
-            <Typography textAlign={'center'} marginBottom={0}>
+            <Typography textAlign={'center'} marginBottom={4}>
                 <p>Modify and Save</p>
             </Typography>
             {isLoading ? (
