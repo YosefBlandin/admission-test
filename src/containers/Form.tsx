@@ -3,7 +3,7 @@ import Text from '../components/Text';
 import Select from '../components/Select';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { PokemonDetailsForTable } from '../types';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Card, Typography } from '@mui/material';
 import { DataContext } from '../App';
 import StandardImageList from '../components/ImageList';
 
@@ -101,75 +101,79 @@ export default function Form() {
     };
 
     return (
-        <form className="formContainer">
-            <Box my={4}>
-                <Text
-                    label={'New name'}
-                    defaultValue={name}
-                    handleChange={handleChangeName}
-                />
-            </Box>
+        <Card>
+            <form className="formContainer">
+                <Box my={4}>
+                    <Text
+                        label={'New name'}
+                        defaultValue={name}
+                        rows={1}
+                        handleChange={handleChangeName}
+                    />
+                </Box>
 
-            <Box my={4}>
-                <Select
-                    label={'New type'}
-                    options={pokemonsTypesData}
-                    defaultValue={types}
-                    handleChange={handleSetSelectedTypes}
-                />
-            </Box>
+                <Box my={4}>
+                    <Select
+                        label={'New type'}
+                        options={pokemonsTypesData}
+                        defaultValue={types}
+                        handleChange={handleSetSelectedTypes}
+                    />
+                </Box>
 
-            <Box my={4}>
-                <Select
-                    label={'Best teammate'}
-                    defaultValue={selectedFriends}
-                    options={pokemonsBySelectedTypes}
-                    handleChange={handleChangeFriends}
-                />
-            </Box>
+                <Box my={4}>
+                    <Select
+                        label={'Best teammate'}
+                        defaultValue={selectedFriends}
+                        options={pokemonsBySelectedTypes}
+                        handleChange={handleChangeFriends}
+                    />
+                </Box>
 
-            <Box my={4}>
-                <Text
-                    label={'Description'}
-                    defaultValue={
-                        newPokemonDescription ? newPokemonDescription : ''
-                    }
-                    handleChange={handleChangeDescription}
-                />
-            </Box>
+                <Box my={4}>
+                    <Text
+                        label={'Description'}
+                        defaultValue={
+                            newPokemonDescription ? newPokemonDescription : ''
+                        }
+                        rows={5}
+                        handleChange={handleChangeDescription}
+                    />
+                </Box>
 
-            <Typography
-                textAlign={'start'}
-                color="inherit"
-                variant="subtitle1"
-                component="div"
-            >
-                Change Pokemon Image
-            </Typography>
-
-            <StandardImageList
-                defaultValue={selectedImg}
-                handleChange={handleChangeImg}
-                list={sprites}
-            />
-
-            <section className={'buttonsSection'}>
-                <Button
-                    variant={'outlined'}
-                    type={'button'}
-                    onClick={() => navigate('/')}
+                <Typography
+                    textAlign={'start'}
+                    color="inherit"
+                    variant="subtitle1"
+                    component="div"
                 >
-                    Go Back
-                </Button>
+                    Change Pokemon Image
+                </Typography>
 
-                <Button
-                    variant={'contained'}
-                    type={'button'}
-                    onClick={handleSubmit}
-                >
-                    Save Pokemon
-                </Button>
-            </section>
-        </form>
+                <StandardImageList
+                    defaultValue={selectedImg}
+                    handleChange={handleChangeImg}
+                    list={sprites}
+                />
+
+                <section className={'buttonsSection'}>
+                    <Button
+                        variant={'outlined'}
+                        type={'button'}
+                        onClick={() => navigate('/')}
+                    >
+                        Go Back
+                    </Button>
+
+                    <Button
+                        variant={'contained'}
+                        type={'button'}
+                        onClick={handleSubmit}
+                    >
+                        Save Pokemon
+                    </Button>
+                </section>
+            </form>
+        </Card>
     );
 }

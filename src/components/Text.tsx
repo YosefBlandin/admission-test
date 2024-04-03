@@ -6,10 +6,12 @@ export default function Text({
     label,
     defaultValue,
     handleChange,
+    rows,
 }: {
     label: string;
     defaultValue: string;
     handleChange: (value: string) => void;
+    rows: number;
 }) {
     return (
         <Box component="form" noValidate autoComplete="off">
@@ -23,7 +25,7 @@ export default function Text({
                     defaultValue={defaultValue}
                     helperText="Incorrect entry."
                     variant={'outlined'}
-                    // rows={5}
+                    rows={rows}
                     // multiline={true}
                 />
             </div>
